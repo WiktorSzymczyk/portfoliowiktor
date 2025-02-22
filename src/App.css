@@ -1,0 +1,123 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Ensure responsive layout and card sizing */
+.card-container {
+  width: 1150px; /* Set initial width */
+  margin: auto; /* Centers the card on larger screens */
+  padding: 1rem; /* Add some padding for spacing */
+  background-color: white; /* Ensure white background */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  border-radius: 8px; /* Smooth corners */
+}
+
+@media (max-width: 1150px) {
+  .card-container {
+    width: 90%; /* Makes the card width 90% of the screen width on smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    width: 95%; /* Makes the card width 95% of the screen width on smaller screens (tablets, etc.) */
+  }
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    width: 100%; /* Full width on mobile screens */
+  }
+}
+
+/* Background animation */
+.bg-animated {
+  background-color: #F1E0C5;
+  opacity: 0.8;
+  background: repeating-linear-gradient(
+    -15deg,
+    #ffc972,
+    #ffdfab 7px,
+    #f1efed 8px,
+    #F1E0C5 50px
+  );
+}
+
+/* Card Content */
+.p-6 {
+  padding: 1.5rem;
+  background-color: #F1EDEE; /* Light gray background for the content area */
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #3D5467;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Button and tabs */
+button {
+  padding: 1rem 2rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #F1E0C5;
+  transition: .5s;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Tab styling */
+button {
+  color: #686963;
+  font-weight: normal;
+}
+
+button.selected {
+  color: #0d263a;
+  font-weight: bold;
+  border-bottom: 2px solid #0d263a;
+}
