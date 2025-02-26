@@ -3,10 +3,10 @@ import educationData from './Education'; // Import the education data
 
 function Educations() {
   // State to toggle table visibility
-  const [isTableVisible, setIsTableVisible] = useState(false);
+  const [visibleTableIndex, setVisibleTableIndex] = useState(null);
 
-  const toggleTable = () => {
-    setIsTableVisible(prevState => !prevState);
+  const toggleTable = (index) => {
+    setVisibleTableIndex(visibleTableIndex === index ? null : index);
   };
 
   return (
@@ -14,8 +14,20 @@ function Educations() {
       {educationData.map((education, index) => (
         <li key={index} className="mb-10 ms-6">
           <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-              <path fillRule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clipRule="evenodd" />
+            <svg
+              className="w-6 h-6 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z"
+                clipRule="evenodd"
+              />
             </svg>
           </span>
           <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
@@ -32,47 +44,46 @@ function Educations() {
 
           {/* Toggle Button */}
           <button
-            onClick={toggleTable}
+            onClick={() => toggleTable(index)}
             className="border-2 rounded-md border-blue-500 text-blue-500 hover:text-blue-700 mb-4 px-4 py-1"
           >
-            {isTableVisible ? "Hide Courses" : "Show Courses"}
+            {visibleTableIndex === index ? "Hide Courses" : "Show Courses"}
           </button>
 
           {/* Table for courses (conditionally rendered based on state) */}
-          {isTableVisible && (
+          {visibleTableIndex === index && (
             <div className="relative overflow-x-auto">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3 rounded-s-lg">Course</th>
-                    <th scope="col" className="px-6 py-3">Course Type</th>
-                    <th scope="col" className="px-6 py-3 rounded-e-lg">Grade</th>
+                    <th scope="col" className="px-6 py-3 rounded-s-lg">
+                      Course
+                    </th>
+                    <th scope="col" className="px-6 py-3 rounded-e-lg">
+                      Grade
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {["A-Level", "AS", "GCSE"].map((level) => {
-                    const filteredCourses = education.courses.filter(course => course.courseType === level);
-                    if (filteredCourses.length === 0) return null; // Skip if no courses in that category
-                    return (
-                      <React.Fragment key={level}>
-                        {/* Section Header */}
-                        <tr className="bg-gray-200 dark:bg-gray-700">
-                          <td colSpan="3" className="px-6 py-2 font-bold text-gray-900 dark:text-white text-center">
-                            {level} Qualifications
-                          </td>
-                        </tr>
-                        {filteredCourses.map((course, courseIndex) => (
-                          <tr key={courseIndex} className="bg-white dark:bg-gray-800">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              {course.courseName}
-                            </th>
-                            <td className="px-6 py-4">{course.courseType}</td>
-                            <td className="px-6 py-4">{course.grade}</td>
-                          </tr>
-                        ))}
-                      </React.Fragment>
-                    );
-                  })}
+                  {education.courses.length > 0 ? (
+                    education.courses.map((course, courseIndex) => (
+                      <tr key={courseIndex} className="bg-white dark:bg-gray-800">
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {course.courseName}
+                        </th>
+                        <td className="px-6 py-4">{course.grade}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="px-6 py-4 text-center text-gray-500">
+                        No courses available.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
