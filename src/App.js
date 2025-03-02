@@ -10,6 +10,7 @@ import Bookings from "./pages/Booking/Bookings";
 const App = () => {
   const [activeTab, setActiveTab] = useState("about");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
@@ -57,7 +58,7 @@ const App = () => {
       <div className="relative p-8 bg-[#d6d3d1] dark:bg-[#222222] rounded-xl shadow-2xl text-light-text dark:text-dark-text w-full max-w-7xl">
         
         {/* Settings Button */}
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 left-4 sm:right-4 sm:left-auto">
           <button
             onClick={() => setSettingsOpen(!settingsOpen)}
             className="p-2 rounded-full bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 focus:outline-none shadow-md"
@@ -67,7 +68,7 @@ const App = () => {
 
           {/* Settings Dropdown */}
           {settingsOpen && (
-            <div className="absolute right-0 mt-2 w-40 bg-light-card dark:bg-dark-card shadow-lg rounded-md overflow-hidden z-10">
+            <div className="absolute left-4 sm:right-0 sm:left-auto mt-2 w-40 bg-light-card dark:bg-dark-card shadow-lg rounded-md overflow-hidden z-10">
               <ul className="text-sm text-light-text dark:text-dark-text">
                 <li
                   className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer"
@@ -85,26 +86,68 @@ const App = () => {
 
         <h1 className="text-3xl font-bold text-center mb-6">My Portfolio</h1>
 
-        {/* Navigation Tabs */}
-        <div className="flex justify-between mb-8 border-b pb-2">
+
+        {/* Navigation */}
+        <div className="mb-8 border-b pb-2">
+          {/* Mobile Navigation (☰ Menu Icon) */}
+          {/* Mobile Menu Button (Top Right Corner) */}
+<div className="md:hidden absolute top-4 right-4">
+  <button
+    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+    className="text-3xl p-2 bg-gray-300 dark:bg-gray-700 rounded-md shadow-md"
+  >
+    {mobileMenuOpen ? "✖" : "☰"}
+  </button>
+</div>
+
+
+
+          {/* Mobile Dropdown (Only Shows When Open) */}
+          {mobileMenuOpen && (
+            <div className="md:hidden flex flex-col items-center bg-gray-200 dark:bg-gray-800 rounded-md p-4 absolute left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg z-10">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setMobileMenuOpen(false); // Close menu after selection
+                  }}
+                  className={`w-full text-lg py-2 ${
+                    activeTab === tab.id
+                      ? "text-black dark:text-white font-bold"
+                      : "text-gray-600 dark:text-gray-300"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+        {/* Desktop Navigation (Hidden on Mobile) */}
+        <div className="hidden md:flex justify-between">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`px-6 py-3 text-lg font-medium ${
-                activeTab === tab.id ? "text-light-heading dark:text-white font-bold border-b-2 border-gray-700" : "text-gray-600 dark:text-gray-400"
+                activeTab === tab.id
+                  ? "text-light-heading dark:text-white font-bold border-b-2 border-gray-700"
+                  : "text-gray-600 dark:text-gray-400"
               }`}
             >
               {tab.label}
             </button>
           ))}
         </div>
-
-        <div className="p-6">{renderContent()}</div>
       </div>
-    </div>
-  );
-};
+
+
+              <div className="p-6">{renderContent()}</div>
+            </div>
+          </div>
+        );
+      };
 
 const AboutSection = () => {
   return (
@@ -112,7 +155,7 @@ const AboutSection = () => {
       <img
         src={image1}
         alt="Wiktor Szymczyk"
-        className="w-72 h-72 rounded-full shadow-xl"
+        className="sm:w-48 sm:h-48 w-72 h-72 rounded-md shadow-xl"
       />
       <div className="flex-1">
         <h2 className="text-4xl font-semibold text-[#3a3a3a] dark:text-white mb-4">
@@ -121,6 +164,7 @@ const AboutSection = () => {
           </span>{" "}
           Szymczyk
         </h2>
+        
         <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
           I'm a passionate and versatile professional with a strong background
           in technology, education, and aviation. I hold a full-stack web
